@@ -20,7 +20,7 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
     - name: Build Docker image
-      run: docker build -t theatra-service .
+      run: docker build -t nyvek28/theatra-service .
 
     - name: Push to Dockerhub
       run: docker push nyvek28/theatra-service-app:latest
