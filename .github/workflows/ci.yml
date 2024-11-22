@@ -23,5 +23,5 @@ jobs:
       run: docker build -t nyvek28/theatra-service .
 
     - name: Push to Dockerhub
-      run: docker push nyvek28/theatra-service-app:latest
+      run: docker push nyvek28/theatra-service:latest
       
