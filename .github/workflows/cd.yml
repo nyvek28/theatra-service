@@ -1,0 +1,24 @@
+name: CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+      - completed
+
+jobs:
+
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - name: Pull docker image
+      run: sudo docker pull nyvek28/theatra-service:latest
+
+    - name: Delete old docker image
+      run: sudo docker rm -f theatra-service-container || true
+
+    - name: Run new docker image
+      run: sudo docker run -d -p 80:3000 --name theatra-service-container nyvek28/theatra-service
+      
