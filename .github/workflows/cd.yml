@@ -13,6 +13,12 @@ jobs:
     runs-on: self-hosted
 
     steps:
+    - name: Delete old env file
+      run: rm -rf .env
+
+    - name: Generate env file
+      run: PARAMETER_PREFIX="/theatra-service/dev/" && aws ssm get-parameters-by-path --path "$PARAMETER_PREFIX" --with-decryption --query "Parameters[*].[Name,Value]" --output text | while IFS=$'\t' read -r name value; do var_name=$(echo "$name" | sed "s|$PARAMETER_PREFIX||g" | tr '/' '_'); echo "$var_name=$value" >> .env; done
+
     - name: Pull docker image
       run: sudo docker pull nyvek28/theatra-service:latest
 
@@ -20,5 +26,5 @@ jobs:
       run: sudo docker rm -f theatra-service-container || true
 
     - name: Run new docker image
-      run: sudo docker run -d -p 80:3000 --name theatra-service-container nyvek28/theatra-service
+      run: sudo docker run --env-file .env -d -p 80:3000 --name theatra-service-container nyvek28/theatra-service
       
