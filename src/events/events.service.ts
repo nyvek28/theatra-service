@@ -21,7 +21,10 @@ export class EventsService {
   }
 
   async findOne(id: number) {
-    return this.eventRepository.findOneBy({ id });
+    return await this.eventRepository.findOne({
+      where: { id },
+      relations: ['organizer', 'tiers'],
+    });
   }
 
   update(id: number, updateEventDto: UpdateEventDto) {

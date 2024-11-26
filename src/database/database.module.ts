@@ -18,6 +18,8 @@ import pg from 'pg';
         password: config.DB_PASSWORD,
         dialectModule: pg,
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+        synchronize: false,
+        logging: ['query', 'error'],
         ssl: {
           rejectUnauthorized: false,
         },
