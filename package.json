@@ -18,19 +18,25 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "compose:dev": "docker-compose -f docker-compose.yml up --build",
+    "compose:dev": "docker-compose -f docker-compose.yml build --no-cache && docker-compose -f docker-compose.yml up",
     "compose:dev:down": "docker-compose -f docker-compose.yml down",
-    "compose:prod": "docker-compose -f docker-compose.prod.yml up --build -d",
+    "compose:prod": "docker-compose -f docker-compose.prod.yml up --build",
     "compose:prod:down": "docker-compose -f docker-compose.prod.yml down",
-    "pull:env": "./fetch_env.sh"
+    "pull:env": "rm -rf .env && ./fetch_env.sh",
+    "docker:build": "docker build -t nyvek28/theatra-service ." ,
+    "docker:run": "docker rm -f theatra-service-container && docker run --env-file .env -p 80:3000 --name theatra-service-container nyvek28/theatra-service",
+    "docker:up": "npm run docker:build && npm run docker:run"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.3.0",
     "@nestjs/core": "^10.0.0",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/typeorm": "^10.0.2",
     "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
@@ -39,6 +45,7 @@
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.2",
     "@types/node": "^20.3.1",
+    "@types/pg": "^8.11.10",
     "@types/supertest": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
