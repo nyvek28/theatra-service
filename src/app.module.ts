@@ -5,9 +5,10 @@ import { DatabaseModule } from './database/database.module';
 import { ConfigurationModule } from './configuration/configuration.module';
 import { ConfigurationService } from './configuration/configuration.service';
 import { OrganizersModule } from './organizers/organizers.module';
+import { EventsModule } from './events/events.module';
 
 @Module({
-  imports: [ConfigurationModule, DatabaseModule, OrganizersModule],
+  imports: [ConfigurationModule, DatabaseModule, OrganizersModule, EventsModule],
   controllers: [AppController],
   providers: [AppService],
 })
