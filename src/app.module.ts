@@ -6,9 +6,18 @@ import { ConfigurationModule } from './configuration/configuration.module';
 import { ConfigurationService } from './configuration/configuration.service';
 import { OrganizersModule } from './organizers/organizers.module';
 import { EventsModule } from './events/events.module';
+import { OrdersModule } from './orders/orders.module';
+import { TicketsModule } from './tickets/tickets.module';
 
 @Module({
-  imports: [ConfigurationModule, DatabaseModule, OrganizersModule, EventsModule],
+  imports: [
+    ConfigurationModule,
+    DatabaseModule,
+    OrganizersModule,
+    EventsModule,
+    OrdersModule,
+    TicketsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
