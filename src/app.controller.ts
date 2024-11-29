@@ -6,9 +6,9 @@ import { ConfigService } from '@nestjs/config';
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
   ) {
-    this.configService = configService
+    this.configService = configService;
   }
 
   @Get()
@@ -18,13 +18,13 @@ export class AppController {
 
   @Get('ping')
   getPing(): string {
-    return 'pang';
+    return 'pong';
   }
 
   @Get('host')
   getHost(): string {
     const host = this.configService.get<string>('DB_HOST');
-    const res = host || 'nothing'
-    return res
+    const res = host || 'nothing';
+    return res;
   }
 }
