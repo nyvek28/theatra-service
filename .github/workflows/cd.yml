@@ -2,29 +2,29 @@ name: CD Pipeline
 
 on:
   workflow_run:
-    workflows: ["CI Pipeline"]
+    workflows: ['CI Pipeline']
     types:
       - completed
 
 jobs:
-
   build:
-
     runs-on: self-hosted
 
     steps:
-    - name: Delete old env file
-      run: rm -rf .env
+      - name: Delete old env file
+        run: rm -rf .env
 
-    - name: Generate env file
-      run: PARAMETER_PREFIX="/theatra-service/dev/" && aws ssm get-parameters-by-path --path "$PARAMETER_PREFIX" --with-decryption --query "Parameters[*].[Name,Value]" --output text | while IFS=$'\t' read -r name value; do var_name=$(echo "$name" | sed "s|$PARAMETER_PREFIX||g" | tr '/' '_'); echo "$var_name=$value" >> .env; done
+      - name: Generate env file
+        run: PARAMETER_PREFIX="/theatra-service/dev/" && aws ssm get-parameters-by-path --path "$PARAMETER_PREFIX" --with-decryption --query "Parameters[*].[Name,Value]" --output text | while IFS=$'\t' read -r name value; do var_name=$(echo "$name" | sed "s|$PARAMETER_PREFIX||g" | tr '/' '_'); echo "$var_name=$value" >> .env; done
 
-    - name: Pull docker image
-      run: sudo docker pull nyvek28/theatra-service:latest
+      - name: Docker cleanup
+        run: docker system prune -a --volumes -f
 
-    - name: Delete old docker image
-      run: sudo docker rm -f theatra-service-container || true
+      - name: Pull docker image
+        run: sudo docker pull nyvek28/theatra-service:latest
 
-    - name: Run new docker image
-      run: sudo docker run --env-file .env -d -p 80:3000 --name theatra-service-container nyvek28/theatra-service
-      
+      - name: Delete old docker image
+        run: sudo docker rm -f theatra-service-container || true
+
+      - name: Run new docker image
+        run: sudo docker run --env-file .env -d -p 80:3000 --name theatra-service-container nyvek28/theatra-service
