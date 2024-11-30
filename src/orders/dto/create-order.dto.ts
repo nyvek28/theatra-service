@@ -1,3 +1,5 @@
+import { PutAssetDto } from 'src/assets/dto/put-asset.dto';
+
 export class CreateOrderDto {
   holderData: {
     id: string;
@@ -5,4 +7,5 @@ export class CreateOrderDto {
     email: string;
     tierId: string;
   }[];
+  voucherImage: PutAssetDto;
 }

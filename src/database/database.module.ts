@@ -19,7 +19,7 @@ import pg from 'pg';
         dialectModule: pg,
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: false,
-        logging: ['query', 'error'],
+        logging: ['error'],
         ssl: {
           rejectUnauthorized: false,
         },

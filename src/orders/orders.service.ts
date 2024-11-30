@@ -5,12 +5,15 @@ import { Repository } from 'typeorm';
 import { Order } from './entities/order.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Ticket } from 'src/tickets/entities/ticket.entity';
+import { AssetsService } from 'src/assets/assets.service';
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectRepository(Order)
     private readonly orderRepository: Repository<Order>,
+
+    private readonly assetService: AssetsService,
   ) {}
   async create(createOrderDto: CreateOrderDto) {
     // Create ticket objects
@@ -25,18 +28,23 @@ export class OrdersService {
       },
     );
 
+    // Save voucher image
+    const voucherImage = await this.assetService.save(
+      createOrderDto.voucherImage,
+    );
+
     // Create order object
     const order: Partial<Order> = {
       tickets: tickets as Ticket[],
       status: 'pending',
-      voucherImage: 'no voucher',
+      voucherImage,
     };
 
     // Save to database
     const newOrder = await this.orderRepository.save(order);
 
     // Return created order
-    return 'This action adds a new order';
+    return newOrder;
   }
 
   findAll() {

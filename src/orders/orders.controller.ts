@@ -32,6 +32,11 @@ export class OrdersController {
 
     const createOrderDto: CreateOrderDto = {
       holderData,
+      voucherImage: {
+        name: file.originalname,
+        buffer: file.buffer,
+        contentType: file.mimetype,
+      },
     };
 
     return await this.ordersService.create(createOrderDto);

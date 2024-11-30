@@ -8,6 +8,7 @@ import { OrganizersModule } from './organizers/organizers.module';
 import { EventsModule } from './events/events.module';
 import { OrdersModule } from './orders/orders.module';
 import { TicketsModule } from './tickets/tickets.module';
+import { AssetsModule } from './assets/assets.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { TicketsModule } from './tickets/tickets.module';
     EventsModule,
     OrdersModule,
     TicketsModule,
+    AssetsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
